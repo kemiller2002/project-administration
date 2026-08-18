@@ -17,4 +17,39 @@ jobs:
         with:
           python-version: "3.12"
       - run: python3 scripts/knowledge.py validate
-      - run: python3 scripts/knowledge.py build
+      - name: Build knowledge
+        id: research_publisher_build
+        run: python3 scripts/knowledge.py build
+      - name: Show research-publisher diagnostics
+        if: failure() && steps.research_publisher_build.outcome == 'failure'
+        shell: bash
+        run: |
+          diagnostics_file="build-reports/build-diagnostics.json"
+          if [ -f "$diagnostics_file" ]; then
+            if command -v jq >/dev/null 2>&1; then
+              jq '.diagnostics[] | select(.severity == "error")' "$diagnostics_file" ||
+                echo "Unable to read research-publisher diagnostics with jq"
+            else
+              node -e '
+              const fs = require("node:fs");
+              try {
+                const report = JSON.parse(fs.readFileSync(process.argv[1], "utf8"));
+                const errors = (report.diagnostics || []).filter(
+                  diagnostic => diagnostic.severity === "error"
+                );
+                console.log(JSON.stringify(errors, null, 2));
+              } catch (error) {
+                console.log(`Unable to read research-publisher diagnostics: ${error.message}`);
+              }
+              ' "$diagnostics_file"
+            fi
+          else
+            echo "research-publisher did not produce $diagnostics_file"
+          fi
+      - name: Upload research-publisher diagnostics
+        if: failure() && steps.research_publisher_build.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: research-publisher-diagnostics
+          path: build-reports/
+          if-no-files-found: warn

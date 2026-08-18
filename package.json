@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "research-publisher": "github:kemiller2002/research-publisher#main"
+  },
+  "dependencies": {
+    "@echelon-foundry/repository-operating-system": "^1.1.1"
+  }
+}
