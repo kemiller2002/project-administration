@@ -1,3 +1,9 @@
+# Project Administration requirement note
+
+`input-documents/echelon-shared-application-foundation-requirements.md` is normative for application work in this repository. It requires Aegis at applicable operational boundaries, Forma for interactive UI, and Folio for printable/PDF/paginated project/reporting artifacts when applicable.
+
+---
+
 ## update research publisher
 
 From each consuming project’s repository root, update/reinstall the package from the latest main branch:
