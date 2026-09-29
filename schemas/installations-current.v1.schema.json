@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echelonfoundry.com/schemas/echelon.installations-current.v1.json",
+  "title": "echelon.installations-current/v1",
+  "description": "Generated, non-canonical current-state projection of installations/events. Regenerate with `administration installation project`; CI refuses a stale projection.",
+  "type": "object",
+  "required": ["schema", "canonical", "eventCount", "lastEventId", "installations"],
+  "properties": {
+    "schema": { "const": "echelon.installations-current/v1" },
+    "canonical": { "const": false },
+    "note": { "type": "string" },
+    "eventCount": { "type": "integer", "minimum": 0 },
+    "lastEventId": { "type": ["string", "null"] },
+    "installations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "systemId", "state", "version", "previousVersions", "firstInstalledAt", "lastChangedAt", "lastObservedAt", "source", "execution", "lastEventId", "eventCount"],
+        "properties": {
+          "target": { "$ref": "installation-event.v1.schema.json#/$defs/target" },
+          "systemId": { "type": "string" },
+          "state": { "enum": ["installed", "removed", "indeterminate"] },
+          "version": { "$ref": "installation-event.v1.schema.json#/$defs/semver" },
+          "previousVersions": { "type": "array", "items": { "$ref": "installation-event.v1.schema.json#/$defs/semver" } },
+          "firstInstalledAt": { "type": "string", "format": "date-time" },
+          "lastChangedAt": { "type": "string", "format": "date-time" },
+          "lastObservedAt": { "type": "string", "format": "date-time" },
+          "source": { "$ref": "installation-event.v1.schema.json#/$defs/source" },
+          "execution": { "oneOf": [{ "$ref": "installation-event.v1.schema.json#/$defs/execution" }, { "type": "null" }] },
+          "lastEventId": { "type": "string" },
+          "eventCount": { "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  }
+}

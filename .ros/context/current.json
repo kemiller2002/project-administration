@@ -4,7 +4,7 @@
   "repository": "project-administration",
   "actor": "ros-bootstrap",
   "startedAt": "2026-08-17T20:50:34.119Z",
-  "updatedAt": "2026-08-17T20:50:34.119Z",
+  "updatedAt": "2026-09-29T11:57:08.908Z",
   "baselineDirtyPaths": [],
   "workItems": [
     {
@@ -20,6 +20,44 @@
       ],
       "updatedAt": "2026-08-17T20:50:34.119Z",
       "completedAt": "2026-08-17T20:50:34.119Z"
+    },
+    {
+      "id": "GH-2",
+      "type": "task",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": "src/Administration.Installations/Inventory.fs"
+        },
+        {
+          "type": "implementation",
+          "path": "src/Administration.Cli/Program.fs"
+        },
+        {
+          "type": "implementation",
+          "path": "schemas/installation-event.v1.schema.json"
+        },
+        {
+          "type": "tests",
+          "path": "tests/Administration.Tests/InventoryTests.fs"
+        },
+        {
+          "type": "tests",
+          "path": "tests/Administration.Tests/StoreTests.fs"
+        },
+        {
+          "type": "tests",
+          "path": "tests/Administration.Tests/CliTests.fs"
+        },
+        {
+          "type": "documentation",
+          "path": "docs/installation-inventory.md"
+        }
+      ],
+      "updatedAt": "2026-09-29T11:57:08.908Z",
+      "completedAt": "2026-09-29T11:57:08.908Z"
     }
   ]
 }

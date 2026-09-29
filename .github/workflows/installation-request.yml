@@ -1,0 +1,93 @@
+# GitHub transport for Project Administration's installation capabilities.
+#
+# Spoke systems (Praxis `praxis installation register`, Conditor) dispatch
+# this workflow with a typed `echelon.installation.request/v1` document.
+# The workflow runs the same `administration` executable that local callers
+# use; spokes never write this repository's files. The transport is
+# replaceable: the typed request contract is the boundary.
+name: Installation request
+
+on:
+  workflow_dispatch:
+    inputs:
+      request:
+        description: echelon.installation.request/v1 JSON document
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: installation-inventory
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Build administration
+        run: dotnet build src/Administration.Cli/Administration.Cli.fsproj --configuration Release
+      - name: Fetch the Echelon Registry catalog (optional)
+        continue-on-error: true
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/kemiller2002/echelon-registry/main/registry/systems.json \
+            -o "$RUNNER_TEMP/systems.json"
+      - name: Apply request
+        id: apply
+        shell: bash
+        env:
+          REQUEST: ${{ inputs.request }}
+        run: |
+          set -uo pipefail
+          printf '%s' "$REQUEST" > "$RUNNER_TEMP/request.json"
+          capability="$(jq -r '.capability' "$RUNNER_TEMP/request.json")"
+          case "$capability" in
+            installation.register) verb=register ;;
+            installation.verify) verb=verify ;;
+            installation.remove) verb=remove ;;
+            installation.reconcile) verb=reconcile ;;
+            *) echo "unsupported capability: $capability"; exit 2 ;;
+          esac
+          dotnet src/Administration.Cli/bin/Release/net10.0/administration.dll installation "$verb" \
+            --store . --request "$RUNNER_TEMP/request.json" --catalog "$RUNNER_TEMP/systems.json" --json \
+            > "$RUNNER_TEMP/result.json"
+          code=$?
+          cat "$RUNNER_TEMP/result.json"
+          { echo '```json'; cat "$RUNNER_TEMP/result.json"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          echo "status=$(jq -r '.status' "$RUNNER_TEMP/result.json")" >> "$GITHUB_OUTPUT"
+          exit "$code"
+      - name: Preserve result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: installation-result
+          path: ${{ runner.temp }}/result.json
+          if-no-files-found: warn
+      - name: Commit recorded event
+        if: steps.apply.outputs.status == 'recorded'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Project Administration Inventory"
+          git config user.email "actions@users.noreply.github.com"
+          git add installations/events generated/installations-current.json
+          git commit -m "inventory: $(jq -r '.operation + " " + .event.systemId + " " + .event.systemVersion + " on " + .event.target.kind + ":" + .event.target.id' "$RUNNER_TEMP/result.json")"
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then exit 0; fi
+            # Events are separate files and never conflict; the projection is
+            # regenerated from merged history.
+            git fetch origin main
+            git rebase -X theirs origin/main || { git checkout --theirs generated/installations-current.json; git add generated/installations-current.json; GIT_EDITOR=true git rebase --continue; }
+            dotnet src/Administration.Cli/bin/Release/net10.0/administration.dll installation project --store .
+            git add generated/installations-current.json
+            git commit --amend --no-edit
+            sleep $((attempt * 2))
+          done
+          exit 1
