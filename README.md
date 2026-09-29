@@ -89,3 +89,21 @@ one is installed, pinned, used and evidenced:
 
 The site build copies the pinned packages' files from `node_modules` into
 `dist/assets/@echelon-foundry/`; nothing from them is copied into source.
+
+### Keeping Limen current
+
+Limen's generated `limen-verify.yml` runs the newest published Limen, while
+this repository pins an exact version. `.github/workflows/limen-upgrade.yml`
+checks npm daily (or on demand, optionally for a named version) and, when a
+newer Limen exists, runs `scripts/limen-upgrade.sh`:
+1. installs the new version exact-pinned;
+2. applies `limen upgrade` and updates `.echelon/foundations.json`;
+3. verifies the result (strict Limen check, search engine tests, site build and
+   Chromium portal checks);
+4. records a `mechanical` ROS work item and opens a PR for review.
+
+Nothing merges automatically. PRs opened with the default `GITHUB_TOKEN` don't
+trigger the other workflows. Add a `LIMEN_UPGRADE_TOKEN` secret (contents and
+pull-requests write) if the usual checks should run on those PRs as well. With
+the default token, enable **Settings → Actions → General → Allow GitHub Actions
+to create and approve pull requests**.

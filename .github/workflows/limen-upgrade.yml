@@ -1,0 +1,114 @@
+name: Limen upgrade
+
+# Keeps the pinned Limen installation on the newest release. Limen's generated
+# limen-verify.yml runs the newest published Limen, so a pinned install fails
+# strict verification as soon as a release lands; this opens the upgrade PR.
+# See scripts/limen-upgrade.sh. Nothing here merges on its own.
+
+on:
+  schedule:
+    - cron: "23 6 * * *"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Limen version to move to (default: the newest npm release)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: limen-upgrade
+  cancel-in-progress: false
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    env:
+      # A PR opened with the default GITHUB_TOKEN does not trigger the other
+      # workflows. Set LIMEN_UPGRADE_TOKEN (contents + pull-requests write) to
+      # have the usual checks run on the upgrade PR; without it the checks
+      # below, run before the PR opens, are the verification.
+      PUSH_TOKEN: ${{ secrets.LIMEN_UPGRADE_TOKEN || github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ env.PUSH_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci
+
+      - name: Decide whether an upgrade is needed
+        id: plan
+        env:
+          REQUESTED: ${{ inputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${REQUESTED:-$(npm view @echelon-foundry/typescript-wasm-kernel version)}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::'$version' is not a release version."
+            exit 1
+          fi
+          installed="$(node -p 'require("./.echelon/limen.json").installedVersion')"
+          branch="automation/limen-${version}"
+          {
+            echo "version=$version"
+            echo "branch=$branch"
+          } >> "$GITHUB_OUTPUT"
+          if [[ "$version" == "$installed" ]]; then
+            echo "Limen $installed is current."
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+          elif git ls-remote --exit-code --heads origin "$branch" > /dev/null; then
+            echo "::notice::$branch already exists; its PR is the pending upgrade."
+            echo "needed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "needed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Chromium for portal checks
+        if: steps.plan.outputs.needed == 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Upgrade, verify and record the work item
+        id: upgrade
+        if: steps.plan.outputs.needed == 'true'
+        env:
+          LIMEN_TARGET_VERSION: ${{ steps.plan.outputs.version }}
+          BRANCH: ${{ steps.plan.outputs.branch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$BRANCH"
+          scripts/limen-upgrade.sh
+
+      - name: Open the upgrade PR
+        if: steps.upgrade.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ env.PUSH_TOKEN }}
+          BRANCH: ${{ steps.plan.outputs.branch }}
+          VERSION: ${{ steps.upgrade.outputs.version }}
+          WORK_ID: ${{ steps.upgrade.outputs.work_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push -u origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "Upgrade Limen to ${VERSION}" \
+            --body "Automated by \`.github/workflows/limen-upgrade.yml\` (\`scripts/limen-upgrade.sh\`).
+
+          - \`@echelon-foundry/typescript-wasm-kernel\` pinned to \`${VERSION}\`; \`limen upgrade\` applied.
+          - \`.echelon/foundations.json\` declares Limen \`${VERSION}\`.
+          - Recorded as mechanical ROS work item \`${WORK_ID}\`.
+          - Before this PR opened, the workflow ran and passed: \`limen verify --strict\`, the search engine tests, the site build, the Chromium portal checks and \`ros validate\`.
+
+          Review Limen's changelog for this release before merging."
