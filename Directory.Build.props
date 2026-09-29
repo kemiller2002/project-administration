@@ -1,0 +1,14 @@
+<Project>
+  <!--
+    The .NET tier of Project Administration. Domain logic is F# (Echelon
+    shared application foundations). Everything here builds with the .NET
+    10 SDK; FSharp.Core follows the version Aegis requires.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors>FS0025</WarningsAsErrors>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,37 @@
+name: Installation inventory
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Build
+        run: dotnet build Administration.slnx --configuration Release
+      - name: Test
+        run: dotnet test Administration.slnx --configuration Release --no-build
+      - name: Every event is readable and the projection is current
+        run: dotnet src/Administration.Cli/bin/Release/net10.0/administration.dll installation project --check --store .
+      - name: Receiving-system smoke test (register, upgrade, remove, query)
+        shell: bash
+        run: |
+          set -euo pipefail
+          store="$RUNNER_TEMP/inventory"
+          admin() { dotnet src/Administration.Cli/bin/Release/net10.0/administration.dll "$@"; }
+          common=(--store "$store" --target-kind environment --target-id ci-smoke --system ordo)
+          admin installation register "${common[@]}" --operation-id smoke-1 --occurred-at 2026-01-01T00:00:00Z --version 1.4.0 --json
+          admin installation register "${common[@]}" --operation-id smoke-2 --occurred-at 2026-01-02T00:00:00Z --version 1.5.0 --json
+          admin installation remove   "${common[@]}" --operation-id smoke-3 --occurred-at 2026-01-03T00:00:00Z --version 1.5.0 --json
+          admin installation history --store "$store" --target environment:ci-smoke
+          test "$(ls "$store/installations/events" | wc -l)" -eq 3
+          admin installation query --store "$store" --state removed --json | grep -q '"version": "1.5.0"'

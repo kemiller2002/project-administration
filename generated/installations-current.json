@@ -1,0 +1,8 @@
+{
+  "schema": "echelon.installations-current/v1",
+  "canonical": false,
+  "note": "Generated from installations/events. History is canonical; regenerate with `administration installation project`.",
+  "eventCount": 0,
+  "lastEventId": null,
+  "installations": []
+}
