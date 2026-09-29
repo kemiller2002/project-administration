@@ -1,0 +1,11 @@
+{
+  "configurationVersion": 1,
+  "boundary": {
+    "engine": [
+      "site/engine"
+    ],
+    "kernel": [
+      "site/kernel"
+    ]
+  }
+}

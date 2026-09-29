@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title} · Project Knowledge Hub</title>
+<!-- Forma: the pinned @echelon-foundry/design-system presentation surface. -->
+<link rel="stylesheet" href="${prefix}assets/@echelon-foundry/design-system/all.css">
+<link rel="stylesheet" href="${prefix}assets/style.css">
+<!-- Folio: the pinned @echelon-foundry/print-components print layout. -->
+<link rel="stylesheet" href="${prefix}assets/@echelon-foundry/print-components/print.css" media="print"></head>
+<body><header class="site-header"><div class="topbar"><a class="brand" href="${prefix}index.html">Project Knowledge Hub</a>
+<p class="tagline">Shared paths through all our projects.</p>
+${search}
+<nav>${nav}</nav></div></header>
+<ef-print-document><ef-print-header><span slot="left">Project Knowledge Hub</span><span slot="right">${title}</span></ef-print-header>
+<main>${body}</main>
+<ef-print-footer><span slot="left">Owned knowledge, reviewed in the open.</span></ef-print-footer></ef-print-document>
+<footer class="site-footer">Owned knowledge, reviewed in the open.</footer>
+${scripts}</body></html>

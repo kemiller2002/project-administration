@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate knowledge Markdown and build a dependency-free static portal."""
+"""Validate knowledge Markdown and build the static portal on the pinned Forma, Folio and Limen packages."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ import html
 import json
 import re
 import shutil
+import string
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -157,7 +158,7 @@ def markdown(text: str) -> str:
         if line.startswith("```"):
             flush_paragraph(); close_list()
             if in_code:
-                out.append("<pre><code>" + html.escape("\n".join(code_lines)) + "</code></pre>")
+                out.append("<ef-print-code><pre><code>" + html.escape("\n".join(code_lines)) + "</code></pre></ef-print-code>")
                 code_lines, in_code = [], False
             else:
                 in_code = True
@@ -172,9 +173,9 @@ def markdown(text: str) -> str:
             rows = []
             while i < len(lines) and lines[i].startswith("|"):
                 rows.append([c.strip() for c in lines[i].strip("|").split("|")]); i += 1
-            out.append("<table><thead><tr>" + "".join(f"<th>{inline_md(c)}</th>" for c in headers) +
+            out.append("<ef-print-table><table><thead><tr>" + "".join(f"<th>{inline_md(c)}</th>" for c in headers) +
                        "</tr></thead><tbody>" + "".join("<tr>" + "".join(f"<td>{inline_md(c)}</td>" for c in row) +
-                       "</tr>" for row in rows) + "</tbody></table>")
+                       "</tr>" for row in rows) + "</tbody></table></ef-print-table>")
             continue
         heading = re.match(r"^(#{1,6})\s+(.+)$", line)
         item = re.match(r"^(\d+\.|[-*])\s+(.+)$", line)
@@ -201,33 +202,98 @@ def markdown(text: str) -> str:
     return "\n".join(out)
 
 
-def shell(title: str, body: str, depth: int = 0) -> str:
+# Pinned Echelon foundations the portal is built from (see package.json).
+FORMA_CSS = Path("@echelon-foundry/design-system/dist/all.css")
+FOLIO_PRINT_CSS = Path("@echelon-foundry/print-components/src/styles/print.css")
+LIMEN_DIST = Path("@echelon-foundry/typescript-wasm-kernel/dist")
+LIMEN_PACKAGE = "@echelon-foundry/typescript-wasm-kernel"
+
+
+def search_form(prefix: str, interactive: bool) -> str:
+    """Forma search pattern. On the home page Limen binds it to the search engine;
+    elsewhere it submits natively to the home page's ?q= query."""
+    bindings = ' data-event="search" data-on="input" data-bind-value="query"' if interactive else ""
+    extras = (
+        '<button type="button" class="ef-search__clear" data-event="clear" '
+        'data-bind-disabled="clearDisabled">Clear</button>'
+        if interactive else ""
+    )
+    status = '<p class="ef-search__status" role="status" data-text="status"></p>' if interactive else ""
+    return (
+        '<ef-search class="ef-component-tag">'
+        f'<form class="ef-search" role="search" action="{prefix}index.html">'
+        '<label class="ef-search__label" for="site-search">Search the knowledge hub</label>'
+        '<div class="ef-search__control">'
+        '<input id="site-search" name="q" type="search" autocomplete="off" '
+        f'placeholder="Search titles, topics, projects, and audiences…"{bindings}>'
+        f"{extras}</div>{status}</form></ef-search>"
+    )
+
+
+def search_scripts(prefix: str, cards: list[dict]) -> str:
+    """The card index for the Limen engine, the import map for the Limen package,
+    and the kernel wiring. JSON is escaped so it cannot close its script element."""
+    index = json.dumps(cards, ensure_ascii=False).replace("</", "<\\/")
+    # Import-map addresses must be ./, ../ or / relative; a bare path is refused.
+    imports = json.dumps({"imports": {LIMEN_PACKAGE: f"{prefix or './'}assets/{LIMEN_PACKAGE}/index.js"}})
+    return (
+        f'<script type="application/json" id="search-index">{index}</script>'
+        f'<script type="importmap">{imports}</script>'
+        f'<script type="module" src="{prefix}assets/site/kernel/search.js"></script>'
+    )
+
+
+PAGE_TEMPLATE = ROOT / "site/templates/page.html"
+
+
+def shell(title: str, body: str, depth: int = 0, cards: list[dict] | None = None) -> str:
     prefix = "../" * depth
     nav = "".join(
         f'<a href="{prefix}index.html#{kind}">{label}</a>'
         for kind, label in SECTION_LABELS.items()
     )
-    return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{html.escape(title)} · Project Knowledge Hub</title>
-<link rel="stylesheet" href="{prefix}assets/style.css"></head>
-<body><header><div class="topbar"><a class="brand" href="{prefix}index.html">Project Knowledge Hub</a>
-<p class="tagline">Shared paths through all our projects.</p>
-<input class="search" data-search type="search" placeholder="Search titles, topics, projects, and audiences…" aria-label="Search">
-<nav>{nav}</nav></div></header>
-<main>{body}</main><footer>Owned knowledge, reviewed in the open.</footer>
-<script src="{prefix}assets/search.js"></script></body></html>"""
+    interactive = cards is not None
+    return string.Template(PAGE_TEMPLATE.read_text(encoding="utf-8")).substitute(
+        title=html.escape(title),
+        prefix=prefix,
+        search=search_form(prefix, interactive),
+        nav=nav,
+        body=body,
+        scripts=search_scripts(prefix, cards) if interactive else "",
+    )
+
+
+def node_modules() -> Path:
+    modules = ROOT / "node_modules"
+    missing = [str(x) for x in (FORMA_CSS, FOLIO_PRINT_CSS, LIMEN_DIST) if not (modules / x).exists()]
+    if missing:
+        raise SystemExit("Missing pinned site dependencies (run `npm ci`): " + ", ".join(missing))
+    return modules
+
+
+def copy_assets() -> None:
+    modules = node_modules()
+    assets = DIST / "assets"
+    vendored = assets / "@echelon-foundry"
+    (vendored / "design-system").mkdir(parents=True)
+    (vendored / "print-components").mkdir(parents=True)
+    shutil.copy(modules / FORMA_CSS, vendored / "design-system/all.css")
+    shutil.copy(modules / FOLIO_PRINT_CSS, vendored / "print-components/print.css")
+    shutil.copytree(modules / LIMEN_DIST, vendored / "typescript-wasm-kernel",
+                    ignore=shutil.ignore_patterns("*.map", "*.d.ts"))
+    shutil.copy(ROOT / "site/style.css", assets / "style.css")
+    for part in ("engine", "kernel"):
+        shutil.copytree(ROOT / "site" / part, assets / "site" / part)
 
 
 def build(pages: list[Page]) -> None:
     if DIST.exists():
         shutil.rmtree(DIST)
-    (DIST / "assets").mkdir(parents=True)
-    shutil.copy(ROOT / "site/style.css", DIST / "assets/style.css")
-    shutil.copy(ROOT / "site/search.js", DIST / "assets/search.js")
+    DIST.mkdir(parents=True)
+    copy_assets()
     published = [p for p in pages if p.meta["status"] == "published"]
     by_id = {p.meta["id"]: p for p in published}
-    sections = []
+    sections, index = [], []
     for kind, label in SECTION_LABELS.items():
         cards = []
         for page in [p for p in published if p.meta["type"] == kind]:
@@ -236,8 +302,9 @@ def build(pages: list[Page]) -> None:
                 *page.meta["audience"], *page.meta["tags"], page.body,
             ])
             pills = "".join(f'<span class="pill">{html.escape(x)}</span>' for x in page.meta["projects"])
+            index.append({"key": page.meta["id"], "text": terms})
             cards.append(
-                f'<a class="card" data-search-text="{html.escape(terms, quote=True)}" href="{page.url}">'
+                f'<a class="card ef-surface" data-bind-hidden="card:{page.meta["id"]}" href="{page.url}">'
                 f'<h3>{html.escape(page.meta["title"])}</h3><p>{html.escape(page.meta["summary"])}</p>'
                 f'<div class="pills">{pills}</div></a>'
             )
@@ -246,8 +313,12 @@ def build(pages: list[Page]) -> None:
     home = ('<span class="eyebrow">One place to start</span><h1>Work across projects with confidence.</h1>'
             '<p class="lede">Find the owner, choose the right path, and follow maintained instructions '
             'without guessing which repository has the answer.</p>' + "".join(sections) +
-            '<p class="empty" data-empty hidden>No pages match every search term.</p>')
-    (DIST / "index.html").write_text(shell("Home", home), encoding="utf-8")
+            '<ef-empty-state class="ef-component-tag">'
+            '<section class="ef-empty-state" aria-labelledby="empty-title" data-bind-hidden="emptyHidden" hidden>'
+            '<div class="ef-empty-state__symbol" aria-hidden="true">□</div>'
+            '<h3 id="empty-title">No pages match every search term</h3>'
+            '<p>Remove a term or clear the search to see every page.</p></section></ef-empty-state>')
+    (DIST / "index.html").write_text(shell("Home", home, cards=index), encoding="utf-8")
 
     index = []
     for page in published:
@@ -262,8 +333,8 @@ def build(pages: list[Page]) -> None:
         meta = (f'<div class="meta"><strong>Owner:</strong> {html.escape(page.meta["owner"])} · '
                 f'<strong>Reviewed:</strong> {page.meta["updated"]} · '
                 f'<strong>Review by:</strong> {page.meta["review_by"]}</div>')
-        content = f'<article class="content"><span class="eyebrow">{SECTION_LABELS[page.meta["type"]]}</span>' \
-                  f'{meta}{markdown(page.body)}{related_html}</article>'
+        content = f'<ef-print-section><article class="content"><span class="eyebrow">{SECTION_LABELS[page.meta["type"]]}</span>' \
+                  f'{meta}{markdown(page.body)}{related_html}</article></ef-print-section>'
         target.write_text(shell(page.meta["title"], content, 1), encoding="utf-8")
         index.append({
             "id": page.meta["id"], "title": page.meta["title"], "summary": page.meta["summary"],

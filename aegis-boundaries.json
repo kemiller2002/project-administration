@@ -1,0 +1,52 @@
+{
+  "$comment": "Declared fault boundaries of the Project Administration `administration` executable. Expected failures (invalid requests, conflicts, unreadable events, lock contention) are typed results and never reach Aegis; Aegis captures only unexpected operational failure. Every boundary below is guarded by the single Aegis.capture scope in src/Administration.Cli/Program.fs.",
+  "schema": "aegis/boundaries/v1",
+  "application": "Project Administration",
+  "boundaries": [
+    {
+      "name": "Installation event store",
+      "kind": "persistent-storage",
+      "owner": "Administration.Installations.Store",
+      "scope": "Administration.Cli.Main",
+      "codes": [
+        "ADMINISTRATION.CLI.UNHANDLED"
+      ],
+      "guarded": true,
+      "$comment": "installations/events/*.json and the generated projection on the local filesystem. Collisions, unreadable events and lock contention are StoreError results; anything else (disk full, permission denied) is captured."
+    },
+    {
+      "name": "Installation request input",
+      "kind": "serialization",
+      "owner": "Administration.Cli",
+      "scope": "Administration.Cli.Main",
+      "codes": [
+        "ADMINISTRATION.CLI.UNHANDLED"
+      ],
+      "guarded": true,
+      "$comment": "echelon.installation.request/v1 documents from a file or stdin, and the optional Echelon Registry catalog. Malformed documents are typed invalid-request results; I/O failure while reading them is captured."
+    },
+    {
+      "name": "Command output",
+      "kind": "sink",
+      "owner": "Administration.Cli",
+      "scope": "Administration.Cli.Main",
+      "codes": [
+        "ADMINISTRATION.CLI.UNHANDLED"
+      ],
+      "guarded": true,
+      "$comment": "echelon.installation.result/v1 and query documents written to stdout."
+    }
+  ],
+  "persistence": {
+    "$comment": "Diagnostic events go to the console sink only; nothing is persisted.",
+    "sinks": [
+      {
+        "name": "console",
+        "kind": "console",
+        "level": "optional",
+        "durable": false
+      }
+    ],
+    "requiredDurableStorage": false
+  }
+}

@@ -1,8 +1,12 @@
 {
   "devDependencies": {
+    "playwright": "1.56.1",
     "research-publisher": "github:kemiller2002/research-publisher#main"
   },
   "dependencies": {
-    "@echelon-foundry/repository-operating-system": "^1.1.1"
+    "@echelon-foundry/design-system": "0.2.0",
+    "@echelon-foundry/print-components": "github:kemiller2002/folio#273b18f5b23db15cddd173c05af5d1a8484fc4cf",
+    "@echelon-foundry/repository-operating-system": "3.1.4",
+    "@echelon-foundry/typescript-wasm-kernel": "0.6.1"
   }
 }
