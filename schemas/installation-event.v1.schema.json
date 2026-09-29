@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echelonfoundry.com/schemas/echelon.installation-event.v1.json",
+  "title": "echelon.installation-event/v1",
+  "description": "One immutable, canonical installation history event owned by Project Administration. Stored as installations/events/<eventId>.json. Never edited or deleted; removal is itself an event.",
+  "type": "object",
+  "required": ["schema", "schemaVersion", "eventId", "operationId", "occurredAt", "operation", "systemId", "systemVersion", "target", "state", "source", "installationEvidence", "actor", "execution"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "echelon.installation-event/v1" },
+    "schemaVersion": { "const": 1 },
+    "eventId": { "type": "string", "pattern": "^IE-[0-9]{8}T[0-9]{9}Z-[0-9a-f]{16}$" },
+    "operationId": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "correlationId": { "type": ["string", "null"] },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "operation": { "enum": ["installed", "upgraded", "verified", "removed", "reconciled"] },
+    "systemId": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "systemVersion": { "$ref": "#/$defs/semver" },
+    "previousVersion": { "oneOf": [{ "$ref": "#/$defs/semver" }, { "type": "null" }] },
+    "target": { "$ref": "#/$defs/target" },
+    "state": { "enum": ["installed", "removed", "indeterminate"] },
+    "source": { "$ref": "#/$defs/source" },
+    "installationEvidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+    "actor": { "oneOf": [{ "$ref": "#/$defs/actor" }, { "type": "null" }] },
+    "execution": { "oneOf": [{ "$ref": "#/$defs/execution" }, { "type": "null" }] }
+  },
+  "$defs": {
+    "semver": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "target": {
+      "type": "object",
+      "required": ["kind", "id"],
+      "additionalProperties": false,
+      "oneOf": [
+        { "properties": { "kind": { "const": "repository" }, "id": { "type": "string", "pattern": "^[A-Za-z0-9-]+/[A-Za-z0-9._-]+$" } } },
+        { "properties": { "kind": { "const": "environment" }, "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$" } } }
+      ]
+    },
+    "nullableString": { "type": ["string", "null"], "maxLength": 512 },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repository": { "$ref": "#/$defs/nullableString" },
+        "distribution": { "$ref": "#/$defs/nullableString" },
+        "release": { "$ref": "#/$defs/nullableString" },
+        "artifact": { "$ref": "#/$defs/nullableString" },
+        "digest": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["kind", "reference"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "type": "string" },
+        "reference": { "type": "string" },
+        "digest": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "required": ["kind", "id"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["human", "agent", "automation"] },
+        "id": { "type": "string" },
+        "provider": { "$ref": "#/$defs/nullableString" },
+        "model": { "$ref": "#/$defs/nullableString" },
+        "runtime": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "workItem": { "$ref": "#/$defs/nullableString" },
+        "repository": { "$ref": "#/$defs/nullableString" }
+      }
+    }
+  }
+}

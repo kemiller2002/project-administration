@@ -57,3 +57,12 @@ dist/                    Generated output (not committed)
 Published pages whose `review_by` date has passed still build, but validation
 reports them as stale. Archived pages remain at their stable URL and direct
 readers to a replacement.
+
+## Echelon installation inventory
+
+This repository is also the canonical **installation inventory** for Echelon
+systems: which system is installed where, at which version, from which
+release, with what evidence. History lives in `installations/events/` and the
+generated current state in `generated/installations-current.json`. The
+knowledge-hub content above is unaffected. See
+[`docs/installation-inventory.md`](docs/installation-inventory.md).

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!-- Compile order is dependency order: pure model and rules first, the
+       file store last. Nothing above Store.fs touches the filesystem. -->
+  <ItemGroup>
+    <Compile Include="Model.fs" />
+    <Compile Include="Validation.fs" />
+    <Compile Include="Wire.fs" />
+    <Compile Include="Inventory.fs" />
+    <Compile Include="Queries.fs" />
+    <Compile Include="Store.fs" />
+  </ItemGroup>
+
+</Project>
