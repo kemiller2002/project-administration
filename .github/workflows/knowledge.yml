@@ -16,10 +16,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned Forma, Folio and Limen
+        run: npm ci
+      - name: Test the Limen search engine
+        run: node --test tests/site/search-engine.test.mjs
       - run: python3 scripts/knowledge.py validate
       - name: Build knowledge
         id: research_publisher_build
         run: python3 scripts/knowledge.py build
+      - name: Install Chromium for portal checks
+        run: npx playwright install --with-deps chromium
+      - name: Check the built portal in Chromium
+        run: node tests/site/portal.browser.mjs
       - name: Show research-publisher diagnostics
         if: failure() && steps.research_publisher_build.outcome == 'failure'
         shell: bash

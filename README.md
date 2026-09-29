@@ -18,6 +18,7 @@ owns it. This hub should link to that source rather than duplicate it.
 ## Quick start
 
 ```sh
+npm ci                                   # pinned Forma, Folio and Limen
 python3 scripts/knowledge.py validate
 python3 scripts/knowledge.py build
 python3 -m http.server 8000 --directory dist
@@ -46,7 +47,11 @@ content/                 Published knowledge, grouped by reader intent
 templates/               Copyable authoring templates
 docs/                    Architecture and governance
 scripts/knowledge.py     Validation and static-site generation
-site/                    Portal shell and styles
+site/templates/          Page shell (Forma patterns, Folio print structure)
+site/engine/             Limen engine: search state and projection (no browser access)
+site/kernel/             Limen wiring: the only browser-facing script
+site/style.css           Portal layout on Forma tokens
+tests/site/              Engine unit tests and Chromium portal checks
 dist/                    Generated output (not committed)
 ```
 
@@ -66,3 +71,21 @@ release, with what evidence. History lives in `installations/events/` and the
 generated current state in `generated/installations-current.json`. The
 knowledge-hub content above is unaffected. See
 [`docs/installation-inventory.md`](docs/installation-inventory.md).
+
+## Echelon application foundations
+
+`.echelon/foundations.json` declares the six shared Echelon capabilities this
+application must consume, and the `echelon-foundations` workflow verifies each
+one is installed, pinned, used and evidenced:
+
+| Capability | Pinned | Where it is used |
+|---|---|---|
+| Aegis | `EchelonFoundry.Aegis.Core` 1.0.0 | Unexpected-failure capture in the `administration` CLI; boundaries declared in `aegis-boundaries.json` |
+| Forma | `@echelon-foundry/design-system` 0.2.0 | Portal presentation: tokens, `ef-search`, `ef-empty-state`, `ef-surface` |
+| Folio | `@echelon-foundry/print-components` 0.3.0 (`273b18f`) | Printed pages: `ef-print-document`/`-section`/`-header`/`-footer`/`-code`/`-table` and `print.css` |
+| Limen | `@echelon-foundry/typescript-wasm-kernel` 0.6.2 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
+| Ordo | `@echelon-foundry/sde` 1.3.0 | `.sde/`, `.echelon/sde.json` |
+| Praxis | `@echelon-foundry/repository-operating-system` 3.1.4 | `./ros` governance; `.echelon/ros.json` |
+
+The site build copies the pinned packages' files from `node_modules` into
+`dist/assets/@echelon-foundry/`; nothing from them is copied into source.
