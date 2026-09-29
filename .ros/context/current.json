@@ -4,7 +4,7 @@
   "repository": "project-administration",
   "actor": "ros-bootstrap",
   "startedAt": "2026-08-17T20:50:34.119Z",
-  "updatedAt": "2026-09-29T16:48:35Z",
+  "updatedAt": "2026-09-29T16:51:04Z",
   "baselineDirtyPaths": [],
   "workItems": [
     {
@@ -91,13 +91,27 @@
     {
       "id": "GH-6",
       "type": "task",
-      "state": "active",
-      "semanticState": "active",
-      "evidence": [],
-      "updatedAt": "2026-09-29T16:48:35Z",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": "scripts/limen-upgrade.sh"
+        },
+        {
+          "type": "implementation",
+          "path": ".github/workflows/limen-upgrade.yml"
+        },
+        {
+          "type": "tests",
+          "path": "tests/site/portal.browser.mjs"
+        }
+      ],
+      "updatedAt": "2026-09-29T16:51:04Z",
       "telemetryExecutionIds": [
         "EXE-20260929T164836131Z-e473dbce"
-      ]
+      ],
+      "completedAt": "2026-09-29T16:51:04Z"
     }
   ]
 }
