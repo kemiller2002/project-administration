@@ -1,8 +1,8 @@
 name: Limen upgrade
 
 # Keeps the pinned Limen installation on the newest release. Limen's generated
-# limen-verify.yml runs the newest published Limen, so a pinned install fails
-# strict verification as soon as a release lands; this opens the upgrade PR.
+# limen-verify.yml runs the version recorded in .echelon/limen.json, so a new
+# release is adopted only by an explicit upgrade; this opens the upgrade PR.
 # See scripts/limen-upgrade.sh. Nothing here merges on its own.
 
 on:
@@ -52,7 +52,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          version="${REQUESTED:-$(npm view @echelon-foundry/typescript-wasm-kernel version)}"
+          version="${REQUESTED:-$(npm view @echelon-foundry/limen version)}"
           if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
             echo "::error::'$version' is not a release version."
             exit 1
@@ -106,7 +106,7 @@ jobs:
             --title "Upgrade Limen to ${VERSION}" \
             --body "Automated by \`.github/workflows/limen-upgrade.yml\` (\`scripts/limen-upgrade.sh\`).
 
-          - \`@echelon-foundry/typescript-wasm-kernel\` pinned to \`${VERSION}\`; \`limen upgrade\` applied.
+          - \`@echelon-foundry/limen\` pinned to \`${VERSION}\`; \`limen upgrade\` applied.
           - \`.echelon/foundations.json\` declares Limen \`${VERSION}\`.
           - Recorded as mechanical ROS work item \`${WORK_ID}\`.
           - Before this PR opened, the workflow ran and passed: \`limen verify --strict\`, the search engine tests, the site build, the Chromium portal checks and \`ros validate\`.

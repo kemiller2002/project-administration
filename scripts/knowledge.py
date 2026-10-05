@@ -205,8 +205,8 @@ def markdown(text: str) -> str:
 # Pinned Echelon foundations the portal is built from (see package.json).
 FORMA_CSS = Path("@echelon-foundry/design-system/dist/all.css")
 FOLIO_PRINT_CSS = Path("@echelon-foundry/print-components/src/styles/print.css")
-LIMEN_DIST = Path("@echelon-foundry/typescript-wasm-kernel/dist")
-LIMEN_PACKAGE = "@echelon-foundry/typescript-wasm-kernel"
+LIMEN_DIST = Path("@echelon-foundry/limen/dist")
+LIMEN_PACKAGE = "@echelon-foundry/limen"
 
 
 def search_form(prefix: str, interactive: bool) -> str:
@@ -279,7 +279,7 @@ def copy_assets() -> None:
     (vendored / "print-components").mkdir(parents=True)
     shutil.copy(modules / FORMA_CSS, vendored / "design-system/all.css")
     shutil.copy(modules / FOLIO_PRINT_CSS, vendored / "print-components/print.css")
-    shutil.copytree(modules / LIMEN_DIST, vendored / "typescript-wasm-kernel",
+    shutil.copytree(modules / LIMEN_DIST, vendored / "limen",
                     ignore=shutil.ignore_patterns("*.map", "*.d.ts"))
     shutil.copy(ROOT / "site/style.css", assets / "style.css")
     for part in ("engine", "kernel"):

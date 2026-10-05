@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Upgrade Limen to its newest npm release as one attributed, verified change.
 #
-# Limen's generated limen-verify.yml runs the newest published Limen, while
-# this repository pins an exact version (the foundations contract rejects
-# floating specs). This script closes that gap: it installs the new version
+# Limen's generated limen-verify.yml runs the version recorded in
+# .echelon/limen.json, and this repository pins an exact version (the
+# foundations contract rejects floating specs). This script moves both: it installs the new version
 # exact-pinned, lets `limen upgrade` move the installation, updates the
 # declared baseline, verifies the result, and records it as a `mechanical`
 # ROS work item. It commits on the current branch and never pushes.
@@ -13,7 +13,7 @@
 # Writes `changed`, `version` and `work_id` to $GITHUB_OUTPUT when set.
 set -euo pipefail
 
-readonly package="@echelon-foundry/typescript-wasm-kernel"
+readonly package="@echelon-foundry/limen"
 readonly output="${GITHUB_OUTPUT:-/dev/null}"
 
 now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
