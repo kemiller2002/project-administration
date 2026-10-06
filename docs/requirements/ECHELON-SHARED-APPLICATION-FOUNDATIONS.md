@@ -28,9 +28,11 @@ tracking a moving repository branch are not valid application baselines.
 - **Aegis:** `EchelonFoundry.Aegis.Core` **1.0.0** is the current .NET
   application baseline. Integration-specific Aegis packages MUST use a
   compatible pinned version when the matching integration exists.
-- **Forma:** `@echelon-foundry/design-system` **0.2.0** is the current
+- **Forma:** `@echelon-foundry/design-system` **0.4.1** is the current
   application baseline. Until npm is the selected canonical source, consume the
-  immutable v0.2.0 release artifact rather than copying CSS or tracking `main`.
+  immutable v0.4.1 release artifact rather than copying CSS or tracking `main`.
+  The exact-pinned npm 0.4.1 package has the same sha512 integrity as that
+  artifact.
 - **Folio:** `@echelon-foundry/print-components` **0.3.0** is the current
   source baseline. Until a canonical v0.3.0 package/release artifact exists,
   pin the immutable Folio commit `2b101b6d840a670abb959148fff8e1477c059eda` rather than tracking
