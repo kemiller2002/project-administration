@@ -9,3 +9,4 @@
 | LIMEN-0-7-0-VERIFIER | LIMEN-0-7-0-VERIFIER | complete |  |  |
 | ROS-INSTALL-1-1-1 | ROS-INSTALL-1-1-1 | complete |  |  |
 | WI-0001 | Upgrade Forma 0.2.0 -> 0.4.1 and Limen 0.7.0 -> 0.7.1 (echelon-current) | complete |  | medium |
+| WI-0002 | Pin Folio to the v0.3.0 release tarball instead of a git commit | ready |  | medium |

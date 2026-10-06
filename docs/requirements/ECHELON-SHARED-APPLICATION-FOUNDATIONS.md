@@ -34,9 +34,10 @@ tracking a moving repository branch are not valid application baselines.
   The exact-pinned npm 0.4.1 package has the same sha512 integrity as that
   artifact.
 - **Folio:** `@echelon-foundry/print-components` **0.3.0** is the current
-  source baseline. Until a canonical v0.3.0 package/release artifact exists,
-  pin the immutable Folio commit `2b101b6d840a670abb959148fff8e1477c059eda` rather than tracking
-  `main`. Once published, pin the exact canonical package version.
+  application baseline. Consume the immutable GitHub release artifact
+  `https://github.com/kemiller2002/folio/releases/download/v0.3.0/echelon-foundry-print-components-0.3.0.tgz`
+  rather than a Git commit or `main`. Its SHA-256 matches the release's
+  `checksums.txt`, and `package-lock.json` records its sha512 integrity.
 
 A dependency upgrade is an explicit application change and MUST include
 verification evidence.
