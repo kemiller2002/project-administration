@@ -11,3 +11,4 @@
 | WI-0001 | Upgrade Forma 0.2.0 -> 0.4.1 and Limen 0.7.0 -> 0.7.1 (echelon-current) | complete |  | medium |
 | WI-0002 | Pin Folio to the v0.3.0 release tarball instead of a git commit | complete |  | medium |
 | WI-0003 | Move project-administration to Praxis 3.7.1 (ROS -> Praxis rename) and Ordo 1.4.0 | complete | praxis, ordo, toolchain | medium |
+| WI-0004 | Move project-administration to Ordo 1.4.1 | complete | ordo, toolchain | medium |
