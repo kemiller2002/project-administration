@@ -81,9 +81,9 @@ one is installed, pinned, used and evidenced:
 | Capability | Pinned | Where it is used |
 |---|---|---|
 | Aegis | `EchelonFoundry.Aegis.Core` 1.0.0 | Unexpected-failure capture in the `administration` CLI; boundaries declared in `aegis-boundaries.json` |
-| Forma | `@echelon-foundry/design-system` 0.2.0 | Portal presentation: tokens, `ef-search`, `ef-empty-state`, `ef-surface` |
+| Forma | `@echelon-foundry/design-system` 0.4.1 | Portal presentation: tokens, `ef-search`, `ef-empty-state`, `ef-surface` |
 | Folio | `@echelon-foundry/print-components` 0.3.0 (`273b18f`) | Printed pages: `ef-print-document`/`-section`/`-header`/`-footer`/`-code`/`-table` and `print.css` |
-| Limen | `@echelon-foundry/limen` 0.7.0 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
+| Limen | `@echelon-foundry/limen` 0.7.1 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
 | Ordo | `@echelon-foundry/sde` 1.3.0 | `.sde/`, `.echelon/sde.json` |
 | Praxis | `@echelon-foundry/repository-operating-system` 3.1.4 | `./ros` governance; `.echelon/ros.json` |
 
