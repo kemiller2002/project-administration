@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 4,
+  "project": "project-administration",
+  "manifestSha256": "d5428becdd93a2f4c8b190c2f0cfc6e4c990f1c65b24144e77c4457347ff4872",
+  "manifest": {
+    "schemaVersion": 1,
+    "name": "project-administration",
+    "registryAuthority": {
+      "kind": "resolved-release-set",
+      "path": ".conditor/authority/resolved-release-set.json",
+      "sha256": "cd8d8d0482c5c4750f4bb31d28bc79e9597d3be4f6264955691e3aebd86cb6d2"
+    },
+    "components": [
+      {
+        "id": "ordo",
+        "version": "1.4.2",
+        "required": true
+      },
+      {
+        "id": "praxis",
+        "version": "3.7.2",
+        "required": true
+      }
+    ],
+    "requirements": [],
+    "execution": {
+      "enabled": false
+    }
+  },
+  "components": [
+    {
+      "id": "ordo",
+      "version": "1.4.2",
+      "distribution": "host-tool",
+      "package": "ordo",
+      "descriptorSha256": "ee057aa4a0c4cd5180269fd262e5570ff6146035e52fd6d17a0baede0df21f5c",
+      "authority": "embedded-component-descriptor",
+      "sourceReference": "host:ordo@1.4.2"
+    },
+    {
+      "id": "praxis",
+      "version": "3.7.2",
+      "distribution": "host-tool",
+      "package": "praxis",
+      "descriptorSha256": "476164cdd93d38e8b7960f37253334f1636204b6950c82e9f993605b269f0d45",
+      "authority": "embedded-component-descriptor",
+      "sourceReference": "host:praxis@3.7.2"
+    }
+  ],
+  "requirements": [],
+  "reviewSignals": [
+    {
+      "component": "ordo",
+      "code": "SDE-STRUCT-001",
+      "band": "review",
+      "path": "tools/ros_cli.mjs",
+      "lineCount": 693
+    }
+  ]
+}
