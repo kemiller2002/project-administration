@@ -4,7 +4,7 @@
   "repository": "project-administration",
   "actor": "anthropic/claude-code",
   "startedAt": "2026-08-17T20:50:34.119Z",
-  "updatedAt": "2026-10-06T16:30:54Z",
+  "updatedAt": "2026-10-08T07:16:45.717Z",
   "baselineDirtyPaths": [],
   "workItems": [
     {
@@ -372,6 +372,64 @@
       },
       "completedAt": "2026-10-06T16:30:54Z",
       "conclusion": "Toolchain at praxis 3.7.2 / ordo 1.4.2; conditor.json adopted; verifiers pass."
+    },
+    {
+      "id": "WI-0006",
+      "type": "task",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": "conditor.json"
+        },
+        {
+          "type": "implementation",
+          "path": ".conditor/lock.json"
+        },
+        {
+          "type": "implementation",
+          "path": ".conditor/authority/resolved-release-set.json"
+        },
+        {
+          "type": "implementation",
+          "path": ".echelon/toolchain.json"
+        },
+        {
+          "type": "tests",
+          "path": ".github/workflows/praxis-validation.yml"
+        },
+        {
+          "type": "implementation",
+          "path": ".echelon/foundations.json"
+        }
+      ],
+      "updatedAt": "2026-10-08T07:16:45.717Z",
+      "telemetryExecutionIds": [
+        "EXE-20261008T071611258Z-5ce88ff9"
+      ],
+      "latestCheckpoint": {
+        "id": "81c02a15d8ba2ed2467e39ba",
+        "recordedAt": "2026-10-08T07:16:44.763Z",
+        "executionId": "EXE-20261008T071611258Z-5ce88ff9",
+        "repository": "project-administration",
+        "branch": "chore/ordo-1.5.0",
+        "commit": "355e3c48add63f8a58abb1316b3b1f4e3a44a2e4",
+        "remote": {
+          "name": "origin",
+          "url": "https://github.com/kemiller2002/project-administration"
+        },
+        "remoteBranch": "chore/ordo-1.5.0",
+        "remoteCommit": "355e3c48add63f8a58abb1316b3b1f4e3a44a2e4",
+        "summary": "conditor upgrade --current to echelon-current 1.2.0 (Ordo 1.4.2 -> 1.5.0) committed and pushed; local checks passed",
+        "nextAction": "Open the PR, get CI green and merge",
+        "verification": {
+          "status": "verified",
+          "mechanism": "git-remote-observation"
+        }
+      },
+      "completedAt": "2026-10-08T07:16:45.717Z",
+      "conclusion": "Ordo 1.5.0 through echelon-current 1.2.0; local checks passed (log: /tmp/claude-0/-home-user-praxis/7bcb3038-90cc-534e-8e5b-9be62aa1de8c/scratchpad/sweep/logs/project-administration.log)"
     }
   ]
 }
