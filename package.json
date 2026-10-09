@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "@echelon-foundry/design-system": "0.4.1",
-    "@echelon-foundry/limen": "0.7.1",
+    "@echelon-foundry/limen": "0.9.0",
     "@echelon-foundry/print-components": "https://github.com/kemiller2002/folio/releases/download/v0.3.0/echelon-foundry-print-components-0.3.0.tgz",
     "@echelon-foundry/repository-operating-system": "3.1.4"
   }
