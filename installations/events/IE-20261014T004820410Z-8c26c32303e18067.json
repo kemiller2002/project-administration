@@ -1,0 +1,39 @@
+{
+  "schema": "echelon.installation-event/v1",
+  "schemaVersion": 1,
+  "eventId": "IE-20261014T004820410Z-8c26c32303e18067",
+  "operationId": "praxis-a9a4b7e95041f1729aef8d6310528306",
+  "correlationId": null,
+  "occurredAt": "2026-10-14T00:48:20.410Z",
+  "operation": "installed",
+  "systemId": "praxis",
+  "systemVersion": "3.12.0",
+  "previousVersion": null,
+  "target": {
+    "kind": "environment",
+    "id": "echelon-shared-workstation"
+  },
+  "state": "installed",
+  "source": {
+    "repository": "kemiller2002/praxis",
+    "distribution": "github-release",
+    "release": "v3.12.0",
+    "artifact": "praxis-linux-x64.tar.gz",
+    "digest": "sha256:59d1f09fe6e768e4753de04033485fffeaffb1be0c30cc5c82e6b973229c2f3f"
+  },
+  "installationEvidence": [
+    {
+      "kind": "receipt",
+      "reference": "conditor-workstation-ledger#praxis-shim",
+      "digest": null
+    }
+  ],
+  "actor": {
+    "kind": "agent",
+    "id": "anthropic/claude-code",
+    "provider": "anthropic",
+    "model": null,
+    "runtime": "claude-code"
+  },
+  "execution": null
+}

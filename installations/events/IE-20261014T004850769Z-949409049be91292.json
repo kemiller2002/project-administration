@@ -1,0 +1,39 @@
+{
+  "schema": "echelon.installation-event/v1",
+  "schemaVersion": 1,
+  "eventId": "IE-20261014T004850769Z-949409049be91292",
+  "operationId": "praxis-830edaf48aac71d2b54cabd111e61195",
+  "correlationId": null,
+  "occurredAt": "2026-10-14T00:48:50.769Z",
+  "operation": "installed",
+  "systemId": "percepta",
+  "systemVersion": "0.1.0",
+  "previousVersion": null,
+  "target": {
+    "kind": "environment",
+    "id": "echelon-shared-workstation"
+  },
+  "state": "installed",
+  "source": {
+    "repository": "kemiller2002/percepta",
+    "distribution": "github-release",
+    "release": "percepta-repo-v0.1.0",
+    "artifact": "percepta-repo-linux-x64",
+    "digest": "sha256:e46113aa08c9d2a97dfb1f75ca65c986946e1601c5f2c5cdcc9e8c25841d6039"
+  },
+  "installationEvidence": [
+    {
+      "kind": "receipt",
+      "reference": "conditor-workstation-ledger#percepta-shim",
+      "digest": null
+    }
+  ],
+  "actor": {
+    "kind": "agent",
+    "id": "anthropic/claude-code",
+    "provider": "anthropic",
+    "model": null,
+    "runtime": "claude-code"
+  },
+  "execution": null
+}

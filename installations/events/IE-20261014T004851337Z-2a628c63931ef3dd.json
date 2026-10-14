@@ -1,0 +1,39 @@
+{
+  "schema": "echelon.installation-event/v1",
+  "schemaVersion": 1,
+  "eventId": "IE-20261014T004851337Z-2a628c63931ef3dd",
+  "operationId": "praxis-9be002a7b7ea8a8995d391eb5ed22283",
+  "correlationId": null,
+  "occurredAt": "2026-10-14T00:48:51.337Z",
+  "operation": "installed",
+  "systemId": "strata",
+  "systemVersion": "0.1.1",
+  "previousVersion": null,
+  "target": {
+    "kind": "environment",
+    "id": "echelon-shared-workstation"
+  },
+  "state": "installed",
+  "source": {
+    "repository": "kemiller2002/strata",
+    "distribution": "github-release",
+    "release": "v0.1.1",
+    "artifact": "strata-linux-x64.tar.gz",
+    "digest": "sha256:497ec245b60994e13b8a8923ec6a8fb994acdb8365d022e9e4fcf955605f2a1b"
+  },
+  "installationEvidence": [
+    {
+      "kind": "receipt",
+      "reference": "conditor-workstation-ledger#strata-shim",
+      "digest": null
+    }
+  ],
+  "actor": {
+    "kind": "agent",
+    "id": "anthropic/claude-code",
+    "provider": "anthropic",
+    "model": null,
+    "runtime": "claude-code"
+  },
+  "execution": null
+}
