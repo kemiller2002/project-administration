@@ -2,7 +2,123 @@
   "schema": "echelon.installations-current/v1",
   "canonical": false,
   "note": "Generated from installations/events. History is canonical; regenerate with `administration installation project`.",
-  "eventCount": 0,
-  "lastEventId": null,
-  "installations": []
+  "eventCount": 5,
+  "lastEventId": "IE-20261014T004851337Z-2a628c63931ef3dd",
+  "installations": [
+    {
+      "target": {
+        "kind": "environment",
+        "id": "echelon-shared-workstation"
+      },
+      "systemId": "dokimos",
+      "state": "installed",
+      "version": "0.2.0",
+      "previousVersions": [],
+      "firstInstalledAt": "2026-10-14T00:48:23.129Z",
+      "lastChangedAt": "2026-10-14T00:48:23.129Z",
+      "lastObservedAt": "2026-10-14T00:48:23.129Z",
+      "source": {
+        "repository": "kemiller2002/dokimos",
+        "distribution": "github-release",
+        "release": "dokimos-v0.2.0",
+        "artifact": "dokimos-linux-x64.tar.gz",
+        "digest": "sha256:bb61505cf8fa23bf6b0992019ca2e2805bda46eeba42eecde9497e15a060441a"
+      },
+      "execution": null,
+      "lastEventId": "IE-20261014T004823129Z-0715afebc2f2465e",
+      "eventCount": 1
+    },
+    {
+      "target": {
+        "kind": "environment",
+        "id": "echelon-shared-workstation"
+      },
+      "systemId": "ordo",
+      "state": "installed",
+      "version": "1.7.0",
+      "previousVersions": [],
+      "firstInstalledAt": "2026-10-14T00:48:22.209Z",
+      "lastChangedAt": "2026-10-14T00:48:22.209Z",
+      "lastObservedAt": "2026-10-14T00:48:22.209Z",
+      "source": {
+        "repository": "kemiller2002/ordo",
+        "distribution": "github-release",
+        "release": "v1.7.0",
+        "artifact": "ordo-linux-x64.tar.gz",
+        "digest": "sha256:3b11f7b8218678fce0bce124bf1d8ad5875992b970c4c915ac40633687a46e74"
+      },
+      "execution": null,
+      "lastEventId": "IE-20261014T004822209Z-46d58285ecde1092",
+      "eventCount": 1
+    },
+    {
+      "target": {
+        "kind": "environment",
+        "id": "echelon-shared-workstation"
+      },
+      "systemId": "percepta",
+      "state": "installed",
+      "version": "0.1.0",
+      "previousVersions": [],
+      "firstInstalledAt": "2026-10-14T00:48:50.769Z",
+      "lastChangedAt": "2026-10-14T00:48:50.769Z",
+      "lastObservedAt": "2026-10-14T00:48:50.769Z",
+      "source": {
+        "repository": "kemiller2002/percepta",
+        "distribution": "github-release",
+        "release": "percepta-repo-v0.1.0",
+        "artifact": "percepta-repo-linux-x64",
+        "digest": "sha256:e46113aa08c9d2a97dfb1f75ca65c986946e1601c5f2c5cdcc9e8c25841d6039"
+      },
+      "execution": null,
+      "lastEventId": "IE-20261014T004850769Z-949409049be91292",
+      "eventCount": 1
+    },
+    {
+      "target": {
+        "kind": "environment",
+        "id": "echelon-shared-workstation"
+      },
+      "systemId": "praxis",
+      "state": "installed",
+      "version": "3.12.0",
+      "previousVersions": [],
+      "firstInstalledAt": "2026-10-14T00:48:20.410Z",
+      "lastChangedAt": "2026-10-14T00:48:20.410Z",
+      "lastObservedAt": "2026-10-14T00:48:20.410Z",
+      "source": {
+        "repository": "kemiller2002/praxis",
+        "distribution": "github-release",
+        "release": "v3.12.0",
+        "artifact": "praxis-linux-x64.tar.gz",
+        "digest": "sha256:59d1f09fe6e768e4753de04033485fffeaffb1be0c30cc5c82e6b973229c2f3f"
+      },
+      "execution": null,
+      "lastEventId": "IE-20261014T004820410Z-8c26c32303e18067",
+      "eventCount": 1
+    },
+    {
+      "target": {
+        "kind": "environment",
+        "id": "echelon-shared-workstation"
+      },
+      "systemId": "strata",
+      "state": "installed",
+      "version": "0.1.1",
+      "previousVersions": [],
+      "firstInstalledAt": "2026-10-14T00:48:51.337Z",
+      "lastChangedAt": "2026-10-14T00:48:51.337Z",
+      "lastObservedAt": "2026-10-14T00:48:51.337Z",
+      "source": {
+        "repository": "kemiller2002/strata",
+        "distribution": "github-release",
+        "release": "v0.1.1",
+        "artifact": "strata-linux-x64.tar.gz",
+        "digest": "sha256:497ec245b60994e13b8a8923ec6a8fb994acdb8365d022e9e4fcf955605f2a1b"
+      },
+      "execution": null,
+      "lastEventId": "IE-20261014T004851337Z-2a628c63931ef3dd",
+      "eventCount": 1
+    }
+  ]
 }

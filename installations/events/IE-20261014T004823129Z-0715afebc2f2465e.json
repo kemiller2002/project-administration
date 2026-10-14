@@ -1,0 +1,39 @@
+{
+  "schema": "echelon.installation-event/v1",
+  "schemaVersion": 1,
+  "eventId": "IE-20261014T004823129Z-0715afebc2f2465e",
+  "operationId": "praxis-0ad1f0c158a0acd2fb9fd09ffb1f6833",
+  "correlationId": null,
+  "occurredAt": "2026-10-14T00:48:23.129Z",
+  "operation": "installed",
+  "systemId": "dokimos",
+  "systemVersion": "0.2.0",
+  "previousVersion": null,
+  "target": {
+    "kind": "environment",
+    "id": "echelon-shared-workstation"
+  },
+  "state": "installed",
+  "source": {
+    "repository": "kemiller2002/dokimos",
+    "distribution": "github-release",
+    "release": "dokimos-v0.2.0",
+    "artifact": "dokimos-linux-x64.tar.gz",
+    "digest": "sha256:bb61505cf8fa23bf6b0992019ca2e2805bda46eeba42eecde9497e15a060441a"
+  },
+  "installationEvidence": [
+    {
+      "kind": "receipt",
+      "reference": "conditor-workstation-ledger#dokimos-shim",
+      "digest": null
+    }
+  ],
+  "actor": {
+    "kind": "agent",
+    "id": "anthropic/claude-code",
+    "provider": "anthropic",
+    "model": null,
+    "runtime": "claude-code"
+  },
+  "execution": null
+}

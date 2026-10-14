@@ -1,0 +1,39 @@
+{
+  "schema": "echelon.installation-event/v1",
+  "schemaVersion": 1,
+  "eventId": "IE-20261014T004822209Z-46d58285ecde1092",
+  "operationId": "praxis-70444a7d4037a42b908789539f8af013",
+  "correlationId": null,
+  "occurredAt": "2026-10-14T00:48:22.209Z",
+  "operation": "installed",
+  "systemId": "ordo",
+  "systemVersion": "1.7.0",
+  "previousVersion": null,
+  "target": {
+    "kind": "environment",
+    "id": "echelon-shared-workstation"
+  },
+  "state": "installed",
+  "source": {
+    "repository": "kemiller2002/ordo",
+    "distribution": "github-release",
+    "release": "v1.7.0",
+    "artifact": "ordo-linux-x64.tar.gz",
+    "digest": "sha256:3b11f7b8218678fce0bce124bf1d8ad5875992b970c4c915ac40633687a46e74"
+  },
+  "installationEvidence": [
+    {
+      "kind": "receipt",
+      "reference": "conditor-workstation-ledger#ordo-shim",
+      "digest": null
+    }
+  ],
+  "actor": {
+    "kind": "agent",
+    "id": "anthropic/claude-code",
+    "provider": "anthropic",
+    "model": null,
+    "runtime": "claude-code"
+  },
+  "execution": null
+}
