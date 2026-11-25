@@ -8,7 +8,7 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
 const root = join(import.meta.dirname, "../../dist");
-const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json" };
+const types = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".woff2": "font/woff2" };
 
 const server = createServer(async (request, response) => {
   const path = normalize(decodeURIComponent(new URL(request.url, "http://x").pathname)).replace(/^\/+/, "");
@@ -44,31 +44,49 @@ const visibleCards = (page) => page.locator("a.card:not([hidden])").count();
 
 await check("Forma styles the page and Limen starts the search", async (page) => {
   await page.goto(`${base}/index.html`);
-  await page.locator(".ef-search__status").filter({ hasText: /\d+ pages?/ }).waitFor();
+  await page.locator(".forma-search__status").filter({ hasText: /\d+ pages?/ }).waitFor();
   const layer = await page.evaluate(() =>
     [...document.styleSheets].some((sheet) => sheet.href?.endsWith("/assets/@echelon-foundry/design-system/all.css") && sheet.cssRules.length > 0));
   assert.ok(layer, "Forma all.css loaded");
-  assert.equal(await page.locator("ef-search form.ef-search[role=search]").count(), 1);
-  assert.equal(await page.locator(".ef-search__clear").isDisabled(), true);
+  assert.equal(await page.locator("forma-search form.forma-search[role=search]").count(), 1);
+  assert.equal(await page.locator(".forma-search__clear").isDisabled(), true);
+});
+
+await check("the Echelon theme brands the page after Forma", async (page) => {
+  await page.goto(`${base}/index.html`);
+  assert.equal(await page.locator("html").getAttribute("data-forma-brand"), "echelon");
+  const sheets = await page.evaluate(() =>
+    [...document.styleSheets].filter((sheet) => sheet.cssRules.length > 0).map((sheet) => sheet.href?.split("/assets/")[1]));
+  const order = [
+    "@echelon-foundry/design-system/all.css",
+    "@echelon-foundry/echelon-theme/echelon.css",
+    "@echelon-foundry/echelon-theme/echelon-fonts.css",
+    "@echelon-foundry/echelon-theme/echelon-app.css",
+  ].map((name) => sheets.indexOf(name));
+  assert.ok(order.every((at) => at >= 0), `theme sheets loaded: ${sheets.join(", ")}`);
+  assert.deepEqual([...order].sort((x, y) => x - y), order, "Forma, then echelon.css, echelon-fonts.css, echelon-app.css");
+  const canvas = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue("--echelon-surface-canvas").trim());
+  assert.notEqual(canvas, "", "echelon-app.css tokens apply under data-forma-brand=echelon");
 });
 
 await check("typing filters cards through the engine; clear restores them", async (page) => {
   await page.goto(`${base}/index.html`);
-  await page.locator(".ef-search__status").filter({ hasText: /pages?$/ }).waitFor();
+  await page.locator(".forma-search__status").filter({ hasText: /pages?$/ }).waitFor();
   const total = await visibleCards(page);
   assert.ok(total > 1, "several cards");
   await page.fill("#site-search", "zzzz-no-such-term");
-  await page.locator(".ef-empty-state:not([hidden])").waitFor();
+  await page.locator(".forma-empty-state:not([hidden])").waitFor();
   assert.equal(await visibleCards(page), 0);
-  await page.click(".ef-search__clear");
-  await page.locator(".ef-empty-state[hidden]").waitFor({ state: "attached" });
+  await page.click(".forma-search__clear");
+  await page.locator(".forma-empty-state[hidden]").waitFor({ state: "attached" });
   assert.equal(await visibleCards(page), total);
   assert.equal(await page.inputValue("#site-search"), "");
 });
 
 await check("?q= on the home page seeds the query", async (page) => {
   await page.goto(`${base}/index.html?q=zzzz-no-such-term`);
-  await page.locator(".ef-empty-state:not([hidden])").waitFor();
+  await page.locator(".forma-empty-state:not([hidden])").waitFor();
   assert.equal(await page.inputValue("#site-search"), "zzzz-no-such-term");
 });
 
@@ -80,7 +98,7 @@ await check("article pages submit search to the home page natively", async (page
   await page.fill("#site-search", "zzzz-no-such-term");
   await page.press("#site-search", "Enter");
   await page.waitForURL(/index\.html\?q=zzzz-no-such-term/);
-  await page.locator(".ef-empty-state:not([hidden])").waitFor();
+  await page.locator(".forma-empty-state:not([hidden])").waitFor();
 });
 
 await check("Folio lays out the printed article", async (page) => {

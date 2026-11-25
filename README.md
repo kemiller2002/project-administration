@@ -81,11 +81,11 @@ one is installed, pinned, used and evidenced:
 | Capability | Pinned | Where it is used |
 |---|---|---|
 | Aegis | `EchelonFoundry.Aegis.Core` 2.0.2 | Unexpected-failure capture in the `administration` CLI; boundaries declared in `aegis-boundaries.json` |
-| Forma | `@echelon-foundry/design-system` 0.4.1 | Portal presentation: tokens, `ef-search`, `ef-empty-state`, `ef-surface` |
-| Folio | `@echelon-foundry/print-components` 0.3.0 (v0.3.0 release tarball) | Printed pages: `ef-print-document`/`-section`/`-header`/`-footer`/`-code`/`-table` and `print.css` |
-| Limen | `@echelon-foundry/limen` 0.7.1 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
-| Ordo | `@echelon-foundry/sde` 1.3.0 | `.sde/`, `.echelon/sde.json` |
-| Praxis | `@echelon-foundry/repository-operating-system` 3.1.4 | `./ros` governance; `.echelon/ros.json` |
+| Forma | `@echelon-foundry/design-system` 1.0.1 (v1.0.1 release tarball), with the Echelon theme `@echelon-foundry/echelon-theme` 1.1.0 | Portal presentation: tokens, `forma-search`, `forma-empty-state`, `forma-surface`; the theme (`data-forma-brand="echelon"`) gives it the Echelon palette and fonts |
+| Folio | `@echelon-foundry/print-components` 0.4.1 (v0.4.1 release tarball) | Printed pages: `ef-print-document`/`-section`/`-header`/`-footer`/`-code`/`-table` and `print.css` |
+| Limen | `@echelon-foundry/limen` 0.9.1 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
+| Ordo | Ordo 1.20.0 | `.sde/`, `.echelon/sde.json` |
+| Praxis | Praxis 3.25.0 (native CLI via `./praxis`) | `./praxis` governance; `.echelon/ros.json` |
 
 The site build copies the pinned packages' files from `node_modules` into
 `dist/assets/@echelon-foundry/`; nothing from them is copied into source.
