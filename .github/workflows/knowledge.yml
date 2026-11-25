@@ -10,7 +10,8 @@ permissions:
 
 jobs:
   validate-and-build:
-    runs-on: ubuntu-latest
+    # Pinned: Playwright 1.56.1 cannot install chromium on ubuntu 26.04 (ubuntu-latest).
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
