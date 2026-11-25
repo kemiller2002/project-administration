@@ -4,7 +4,7 @@
   "repository": "project-administration",
   "actor": "anthropic/claude-code",
   "startedAt": "2026-08-17T20:50:34.119Z",
-  "updatedAt": "2026-11-25T15:27:34.000Z",
+  "updatedAt": "2026-11-25T15:27:46.000Z",
   "baselineDirtyPaths": [],
   "workItems": [
     {
@@ -488,13 +488,47 @@
     {
       "id": "WI-0008",
       "type": "task",
-      "state": "active",
-      "semanticState": "active",
-      "evidence": [],
-      "updatedAt": "2026-11-25T15:27:34.000Z",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": ".github/workflows/knowledge.yml"
+        },
+        {
+          "type": "implementation",
+          "path": ".github/workflows/limen-upgrade.yml"
+        },
+        {
+          "type": "tests",
+          "path": ".github/workflows/knowledge.yml"
+        }
+      ],
+      "updatedAt": "2026-11-25T15:27:46.000Z",
       "telemetryExecutionIds": [
         "EXE-20261125T152735268Z-2c0df84a"
-      ]
+      ],
+      "latestCheckpoint": {
+        "id": "ecf853b2b622279d8007274b",
+        "recordedAt": "2026-11-25T15:27:45.000Z",
+        "executionId": "EXE-20261125T152735268Z-2c0df84a",
+        "repository": "project-administration",
+        "branch": "claude/vigila-implementation-jdeps1",
+        "commit": "365f415aecfead24451b42dc079e2fa88e375060",
+        "remote": {
+          "name": "origin",
+          "url": "https://github.com/kemiller2002/project-administration"
+        },
+        "remoteBranch": "claude/vigila-implementation-jdeps1",
+        "remoteCommit": "365f415aecfead24451b42dc079e2fa88e375060",
+        "summary": "knowledge and limen-upgrade jobs pinned to ubuntu-24.04; praxis validate passed",
+        "nextAction": "Confirm PR #21 Validate knowledge passes",
+        "verification": {
+          "status": "verified",
+          "mechanism": "git-remote-observation"
+        }
+      },
+      "completedAt": "2026-11-25T15:27:46.000Z"
     }
   ]
 }
