@@ -17,4 +17,4 @@
 | WI-0006 | Move project-administration to Ordo 1.5.0 via echelon-current 1.2.0 (conditor upgrade --current) | complete |  | medium |
 | WI-0007 | Upgrade Aegis 1.0.0 -> 2.0.0 (echelon-current 1.40.0) | complete |  | medium |
 | WI-0008 | Pin the Playwright jobs to ubuntu-24.04 (Playwright 1.56.1 has no ubuntu 26.04 support) | complete |  | medium |
-| WI-0009 | Move Aegis 2.0.1 pins to 2.0.2 (WebAssembly detached-capture hang fix) | ready |  | medium |
+| WI-0009 | Move Aegis 2.0.1 pins to 2.0.2 (WebAssembly detached-capture hang fix) | complete |  | medium |
