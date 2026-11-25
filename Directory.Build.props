@@ -10,15 +10,5 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors>FS0025</WarningsAsErrors>
     <Version>0.1.0</Version>
-    <!-- FSharp.Core is pinned explicitly below; without this the SDK adds its
-         own implicit reference (10.1.404 on SDK 10.0.4xx) alongside it. -->
-    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.fsproj'">
-    <!-- Aegis 2.0.0 depends on FSharp.Core >= 11.0.101. The .NET 10 SDK's
-         implicit 10.1.404 reference is a package downgrade (NU1605, an error
-         under warnings-as-errors), so pin the version Aegis requires. -->
-    <PackageReference Include="FSharp.Core" Version="11.0.101" />
-  </ItemGroup>
 </Project>
