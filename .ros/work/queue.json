@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "repository": "project-administration",
-  "nextSeq": 9,
+  "nextSeq": 10,
   "items": [
     {
       "id": "WI-0001",
@@ -153,6 +153,27 @@
       "attachments": [],
       "createdAt": "2026-11-25T15:27:30.087Z",
       "updatedAt": "2026-11-25T15:27:46.000Z",
+      "createdBy": "unknown",
+      "createdByActor": {
+        "kind": "agent",
+        "id": "anthropic/claude-code",
+        "provider": "anthropic",
+        "model": "unknown",
+        "runtime": "claude-code"
+      },
+      "source": "manual",
+      "sourceReference": null
+    },
+    {
+      "id": "WI-0009",
+      "title": "Move Aegis 2.0.1 pins to 2.0.2 (WebAssembly detached-capture hang fix)",
+      "description": null,
+      "tags": [],
+      "priority": "medium",
+      "status": "ready",
+      "attachments": [],
+      "createdAt": "2026-11-25T15:39:37.174Z",
+      "updatedAt": "2026-11-25T15:39:52.000Z",
       "createdBy": "unknown",
       "createdByActor": {
         "kind": "agent",
