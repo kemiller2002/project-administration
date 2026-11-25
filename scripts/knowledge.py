@@ -205,6 +205,9 @@ def markdown(text: str) -> str:
 # Pinned Echelon foundations the portal is built from (see package.json).
 FORMA_CSS = Path("@echelon-foundry/design-system/dist/all.css")
 FOLIO_PRINT_CSS = Path("@echelon-foundry/print-components/src/styles/print.css")
+# The Echelon brand for Forma 1.x, loaded after Forma in the theme's order.
+ECHELON_THEME_DIST = Path("@echelon-foundry/echelon-theme/dist")
+ECHELON_THEME_CSS = ("echelon.css", "echelon-fonts.css", "echelon-app.css")
 LIMEN_DIST = Path("@echelon-foundry/limen/dist")
 LIMEN_PACKAGE = "@echelon-foundry/limen"
 
@@ -214,19 +217,19 @@ def search_form(prefix: str, interactive: bool) -> str:
     elsewhere it submits natively to the home page's ?q= query."""
     bindings = ' data-event="search" data-on="input" data-bind-value="query"' if interactive else ""
     extras = (
-        '<button type="button" class="ef-search__clear" data-event="clear" '
+        '<button type="button" class="forma-search__clear" data-event="clear" '
         'data-bind-disabled="clearDisabled">Clear</button>'
         if interactive else ""
     )
-    status = '<p class="ef-search__status" role="status" data-text="status"></p>' if interactive else ""
+    status = '<p class="forma-search__status" role="status" data-text="status"></p>' if interactive else ""
     return (
-        '<ef-search class="ef-component-tag">'
-        f'<form class="ef-search" role="search" action="{prefix}index.html">'
-        '<label class="ef-search__label" for="site-search">Search the knowledge hub</label>'
-        '<div class="ef-search__control">'
+        '<forma-search class="forma-component-tag">'
+        f'<form class="forma-search" role="search" action="{prefix}index.html">'
+        '<label class="forma-search__label" for="site-search">Search the knowledge hub</label>'
+        '<div class="forma-search__control">'
         '<input id="site-search" name="q" type="search" autocomplete="off" '
         f'placeholder="Search titles, topics, projects, and audiences…"{bindings}>'
-        f"{extras}</div>{status}</form></ef-search>"
+        f"{extras}</div>{status}</form></forma-search>"
     )
 
 
@@ -265,7 +268,7 @@ def shell(title: str, body: str, depth: int = 0, cards: list[dict] | None = None
 
 def node_modules() -> Path:
     modules = ROOT / "node_modules"
-    missing = [str(x) for x in (FORMA_CSS, FOLIO_PRINT_CSS, LIMEN_DIST) if not (modules / x).exists()]
+    missing = [str(x) for x in (FORMA_CSS, FOLIO_PRINT_CSS, ECHELON_THEME_DIST, LIMEN_DIST) if not (modules / x).exists()]
     if missing:
         raise SystemExit("Missing pinned site dependencies (run `npm ci`): " + ", ".join(missing))
     return modules
@@ -279,6 +282,12 @@ def copy_assets() -> None:
     (vendored / "print-components").mkdir(parents=True)
     shutil.copy(modules / FORMA_CSS, vendored / "design-system/all.css")
     shutil.copy(modules / FOLIO_PRINT_CSS, vendored / "print-components/print.css")
+    theme = vendored / "echelon-theme"
+    theme.mkdir(parents=True)
+    for name in ECHELON_THEME_CSS:
+        shutil.copy(modules / ECHELON_THEME_DIST / name, theme / name)
+    # echelon-fonts.css refers to its self-hosted fonts as fonts/<file>.
+    shutil.copytree(modules / ECHELON_THEME_DIST / "fonts", theme / "fonts")
     shutil.copytree(modules / LIMEN_DIST, vendored / "limen",
                     ignore=shutil.ignore_patterns("*.map", "*.d.ts"))
     shutil.copy(ROOT / "site/style.css", assets / "style.css")
@@ -304,7 +313,7 @@ def build(pages: list[Page]) -> None:
             pills = "".join(f'<span class="pill">{html.escape(x)}</span>' for x in page.meta["projects"])
             index.append({"key": page.meta["id"], "text": terms})
             cards.append(
-                f'<a class="card ef-surface" data-bind-hidden="card:{page.meta["id"]}" href="{page.url}">'
+                f'<a class="card forma-surface" data-bind-hidden="card:{page.meta["id"]}" href="{page.url}">'
                 f'<h3>{html.escape(page.meta["title"])}</h3><p>{html.escape(page.meta["summary"])}</p>'
                 f'<div class="pills">{pills}</div></a>'
             )
@@ -313,11 +322,11 @@ def build(pages: list[Page]) -> None:
     home = ('<span class="eyebrow">One place to start</span><h1>Work across projects with confidence.</h1>'
             '<p class="lede">Find the owner, choose the right path, and follow maintained instructions '
             'without guessing which repository has the answer.</p>' + "".join(sections) +
-            '<ef-empty-state class="ef-component-tag">'
-            '<section class="ef-empty-state" aria-labelledby="empty-title" data-bind-hidden="emptyHidden" hidden>'
-            '<div class="ef-empty-state__symbol" aria-hidden="true">□</div>'
+            '<forma-empty-state class="forma-component-tag">'
+            '<section class="forma-empty-state" aria-labelledby="empty-title" data-bind-hidden="emptyHidden" hidden>'
+            '<div class="forma-empty-state__symbol" aria-hidden="true">□</div>'
             '<h3 id="empty-title">No pages match every search term</h3>'
-            '<p>Remove a term or clear the search to see every page.</p></section></ef-empty-state>')
+            '<p>Remove a term or clear the search to see every page.</p></section></forma-empty-state>')
     (DIST / "index.html").write_text(shell("Home", home, cards=index), encoding="utf-8")
 
     index = []

@@ -1,0 +1,12 @@
+{
+  "schema": "praxis.instance/1",
+  "instanceId": "pxi-730f995c491a45fe97d8f1ae19e91570",
+  "createdAt": "2026-11-25T18:30:31.612Z",
+  "createdWith": "3.25.0",
+  "repository": {
+    "provider": "github",
+    "repositoryId": null,
+    "repository": "kemiller2002/project-administration"
+  },
+  "predecessors": []
+}

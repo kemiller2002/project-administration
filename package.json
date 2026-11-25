@@ -4,9 +4,10 @@
     "research-publisher": "github:kemiller2002/research-publisher#main"
   },
   "dependencies": {
-    "@echelon-foundry/design-system": "0.4.1",
-    "@echelon-foundry/limen": "0.9.0",
-    "@echelon-foundry/print-components": "https://github.com/kemiller2002/folio/releases/download/v0.3.0/echelon-foundry-print-components-0.3.0.tgz",
+    "@echelon-foundry/design-system": "https://github.com/kemiller2002/forma/releases/download/v1.0.1/echelon-foundry-design-system-1.0.1.tgz",
+    "@echelon-foundry/echelon-theme": "https://github.com/kemiller2002/echelon-design-system/releases/download/v1.1.0/echelon-foundry-echelon-theme-1.1.0.tgz",
+    "@echelon-foundry/limen": "0.9.1",
+    "@echelon-foundry/print-components": "https://github.com/kemiller2002/folio/releases/download/v0.4.1/echelon-foundry-print-components-0.4.1.tgz",
     "@echelon-foundry/repository-operating-system": "3.1.4"
   }
 }
