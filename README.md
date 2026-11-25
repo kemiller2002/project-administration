@@ -80,7 +80,7 @@ one is installed, pinned, used and evidenced:
 
 | Capability | Pinned | Where it is used |
 |---|---|---|
-| Aegis | `EchelonFoundry.Aegis.Core` 1.0.0 | Unexpected-failure capture in the `administration` CLI; boundaries declared in `aegis-boundaries.json` |
+| Aegis | `EchelonFoundry.Aegis.Core` 2.0.1 | Unexpected-failure capture in the `administration` CLI; boundaries declared in `aegis-boundaries.json` |
 | Forma | `@echelon-foundry/design-system` 0.4.1 | Portal presentation: tokens, `ef-search`, `ef-empty-state`, `ef-surface` |
 | Folio | `@echelon-foundry/print-components` 0.3.0 (v0.3.0 release tarball) | Printed pages: `ef-print-document`/`-section`/`-header`/`-footer`/`-code`/`-table` and `print.css` |
 | Limen | `@echelon-foundry/limen` 0.7.1 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
