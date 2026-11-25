@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "repository": "project-administration",
-  "nextSeq": 10,
+  "nextSeq": 11,
   "items": [
     {
       "id": "WI-0001",
@@ -174,6 +174,27 @@
       "attachments": [],
       "createdAt": "2026-11-25T15:39:37.174Z",
       "updatedAt": "2026-11-25T15:56:52Z",
+      "createdBy": "unknown",
+      "createdByActor": {
+        "kind": "agent",
+        "id": "anthropic/claude-code",
+        "provider": "anthropic",
+        "model": "unknown",
+        "runtime": "claude-code"
+      },
+      "source": "manual",
+      "sourceReference": null
+    },
+    {
+      "id": "WI-0010",
+      "title": "Upgrade to echelon-current 1.42.0 (Praxis 3.25.0, Ordo 1.20.0, Forma 1.0.1 with the Echelon theme 1.1.0, Folio 0.4.1, Limen 0.9.1)",
+      "description": null,
+      "tags": [],
+      "priority": "medium",
+      "status": "ready",
+      "attachments": [],
+      "createdAt": "2026-11-25T18:30:04.088Z",
+      "updatedAt": "2026-11-25T18:30:04.000Z",
       "createdBy": "unknown",
       "createdByActor": {
         "kind": "agent",
