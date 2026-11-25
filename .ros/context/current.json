@@ -4,7 +4,7 @@
   "repository": "project-administration",
   "actor": "anthropic/claude-code",
   "startedAt": "2026-08-17T20:50:34.119Z",
-  "updatedAt": "2026-10-09T00:12:22Z",
+  "updatedAt": "2026-11-25T15:56:52Z",
   "baselineDirtyPaths": [],
   "workItems": [
     {
@@ -443,6 +443,133 @@
       ],
       "completedAt": "2026-10-09T00:12:22Z",
       "conclusion": "Limen 0.7.1 -> 0.9.0; strict verification and portal checks pass."
+    },
+    {
+      "id": "WI-0007",
+      "type": "task",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": "src/Administration.Cli/Administration.Cli.fsproj"
+        },
+        {
+          "type": "tests",
+          "path": "tests/Administration.Tests/Administration.Tests.fsproj"
+        }
+      ],
+      "updatedAt": "2026-11-25T12:22:39.000Z",
+      "telemetryExecutionIds": [
+        "EXE-20261125T121722920Z-8fbf70f7"
+      ],
+      "latestCheckpoint": {
+        "id": "59d135e309bd75b898f9583f",
+        "recordedAt": "2026-11-25T12:22:36.000Z",
+        "executionId": "EXE-20261125T121722920Z-8fbf70f7",
+        "repository": "project-administration",
+        "branch": "claude/vigila-implementation-jdeps1",
+        "commit": "8521bf592b25c8ea18b0ef367269fd1193d57d50",
+        "remote": {
+          "name": "origin",
+          "url": "https://github.com/kemiller2002/project-administration"
+        },
+        "remoteBranch": "claude/vigila-implementation-jdeps1",
+        "remoteCommit": "8521bf592b25c8ea18b0ef367269fd1193d57d50",
+        "summary": "Pinned EchelonFoundry.Aegis.Core 2.0.0 and FSharp.Core 11.0.101 (Aegis 2.0.0 floor); SDK 10.0.404 and 11.0.100 builds clean, 26/26 tests pass, praxis validate passes",
+        "nextAction": "Complete WI-0007 with implementation and tests evidence, rebuild registries, validate, push, open draft PR",
+        "verification": {
+          "status": "verified",
+          "mechanism": "git-remote-observation"
+        }
+      },
+      "completedAt": "2026-11-25T12:22:39.000Z"
+    },
+    {
+      "id": "WI-0008",
+      "type": "task",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": ".github/workflows/knowledge.yml"
+        },
+        {
+          "type": "implementation",
+          "path": ".github/workflows/limen-upgrade.yml"
+        },
+        {
+          "type": "tests",
+          "path": ".github/workflows/knowledge.yml"
+        }
+      ],
+      "updatedAt": "2026-11-25T15:27:46.000Z",
+      "telemetryExecutionIds": [
+        "EXE-20261125T152735268Z-2c0df84a"
+      ],
+      "latestCheckpoint": {
+        "id": "ecf853b2b622279d8007274b",
+        "recordedAt": "2026-11-25T15:27:45.000Z",
+        "executionId": "EXE-20261125T152735268Z-2c0df84a",
+        "repository": "project-administration",
+        "branch": "claude/vigila-implementation-jdeps1",
+        "commit": "365f415aecfead24451b42dc079e2fa88e375060",
+        "remote": {
+          "name": "origin",
+          "url": "https://github.com/kemiller2002/project-administration"
+        },
+        "remoteBranch": "claude/vigila-implementation-jdeps1",
+        "remoteCommit": "365f415aecfead24451b42dc079e2fa88e375060",
+        "summary": "knowledge and limen-upgrade jobs pinned to ubuntu-24.04; praxis validate passed",
+        "nextAction": "Confirm PR #21 Validate knowledge passes",
+        "verification": {
+          "status": "verified",
+          "mechanism": "git-remote-observation"
+        }
+      },
+      "completedAt": "2026-11-25T15:27:46.000Z"
+    },
+    {
+      "id": "WI-0009",
+      "type": "task",
+      "state": "complete",
+      "semanticState": "complete",
+      "evidence": [
+        {
+          "type": "implementation",
+          "path": "src/Administration.Cli/Administration.Cli.fsproj"
+        },
+        {
+          "type": "tests",
+          "path": "src/Administration.Cli/Administration.Cli.fsproj"
+        }
+      ],
+      "updatedAt": "2026-11-25T15:56:52Z",
+      "telemetryExecutionIds": [
+        "EXE-20261125T153952858Z-b4763884"
+      ],
+      "latestCheckpoint": {
+        "id": "bd5aa6d1fe967bfaaf88ad79",
+        "recordedAt": "2026-11-25T15:56:52Z",
+        "executionId": "EXE-20261125T153952858Z-b4763884",
+        "repository": "project-administration",
+        "branch": "claude/vigila-implementation-jdeps1",
+        "commit": "7bd66e4ced7ea82991e0f195a21500b04a8a1041",
+        "remote": {
+          "name": "origin",
+          "url": "https://github.com/kemiller2002/project-administration"
+        },
+        "remoteBranch": "claude/vigila-implementation-jdeps1",
+        "remoteCommit": "7bd66e4ced7ea82991e0f195a21500b04a8a1041",
+        "summary": "Aegis pins at 2.0.2; builds 0 warnings on SDK 10 and 11; tests pass",
+        "nextAction": "Merge after review",
+        "verification": {
+          "status": "verified",
+          "mechanism": "git-remote-observation"
+        }
+      },
+      "completedAt": "2026-11-25T15:56:52Z"
     }
   ]
 }

@@ -25,7 +25,7 @@ Silence is not an exception.
 Application dependencies MUST be reproducible and pinned. Floating versions and
 tracking a moving repository branch are not valid application baselines.
 
-- **Aegis:** `EchelonFoundry.Aegis.Core` **1.0.0** is the current .NET
+- **Aegis:** `EchelonFoundry.Aegis.Core` **2.0.2** is the current .NET
   application baseline. Integration-specific Aegis packages MUST use a
   compatible pinned version when the matching integration exists.
 - **Forma:** `@echelon-foundry/design-system` **0.4.1** is the current

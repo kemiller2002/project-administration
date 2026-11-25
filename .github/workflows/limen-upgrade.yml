@@ -25,7 +25,8 @@ concurrency:
 
 jobs:
   upgrade:
-    runs-on: ubuntu-latest
+    # Pinned: Playwright 1.56.1 cannot install chromium on ubuntu 26.04 (ubuntu-latest).
+    runs-on: ubuntu-24.04
     env:
       # A PR opened with the default GITHUB_TOKEN does not trigger the other
       # workflows. Set LIMEN_UPGRADE_TOKEN (contents + pull-requests write) to
