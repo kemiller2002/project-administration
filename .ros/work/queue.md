@@ -19,3 +19,4 @@
 | WI-0008 | Pin the Playwright jobs to ubuntu-24.04 (Playwright 1.56.1 has no ubuntu 26.04 support) | complete |  | medium |
 | WI-0009 | Move Aegis 2.0.1 pins to 2.0.2 (WebAssembly detached-capture hang fix) | complete |  | medium |
 | WI-0010 | Upgrade to echelon-current 1.42.0 (Praxis 3.25.0, Ordo 1.20.0, Forma 1.0.1 with the Echelon theme 1.1.0, Folio 0.4.1, Limen 0.9.1) | complete |  | medium |
+| WI-0011 | Upgrade to echelon-current 1.43.0 (Praxis 3.26.0) | ready |  | medium |
