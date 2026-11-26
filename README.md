@@ -85,7 +85,7 @@ one is installed, pinned, used and evidenced:
 | Folio | `@echelon-foundry/print-components` 0.4.1 (v0.4.1 release tarball) | Printed pages: `ef-print-document`/`-section`/`-header`/`-footer`/`-code`/`-table` and `print.css` |
 | Limen | `@echelon-foundry/limen` 0.9.1 | Portal search: `site/engine/` owns state, `site/kernel/` is the only browser code; boundary in `limen.config.json` |
 | Ordo | Ordo 1.20.0 | `.sde/`, `.echelon/sde.json` |
-| Praxis | Praxis 3.25.0 (native CLI via `./praxis`) | `./praxis` governance; `.echelon/ros.json` |
+| Praxis | Praxis 3.26.0 (native CLI via `./praxis`) | `./praxis` governance; `.echelon/ros.json` |
 
 The site build copies the pinned packages' files from `node_modules` into
 `dist/assets/@echelon-foundry/`; nothing from them is copied into source.
